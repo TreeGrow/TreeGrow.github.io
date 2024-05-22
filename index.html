@@ -87,7 +87,9 @@
 </div>
 
 <script>
-    let clickCount = 0;
+    let clickCount = 0;  //记录相机点击次数
+    const offsetTime = 445; // 7分25秒的时间偏移量
+
     document.addEventListener('DOMContentLoaded', () => {
         const video = document.getElementById('myVideo');
         const timestamp = document.getElementById('timestamp');
@@ -102,10 +104,10 @@
         });
 
         video.addEventListener('timeupdate', () => {
-            const current = Math.floor(video.currentTime);
+            const current = Math.floor(video.currentTime - offsetTime);
             const minutes = Math.floor(current / 60);
             const seconds = current % 60;
-            const duration = Math.floor(video.duration);
+            const duration = Math.floor(video.duration - offsetTime);
             const durMinutes = Math.floor(duration / 60);
             const durSeconds = duration % 60;
             timestamp.textContent = `${formatTime(minutes)}:${formatTime(seconds)} / ${formatTime(durMinutes)}:${formatTime(durSeconds)}`;
