@@ -105,7 +105,6 @@
 
         video.addEventListener('timeupdate', () => {
             const current = Math.floor(video.currentTime - offsetTime);
-            console.log(`video.currentTim ${video.currentTim} ${offsetTime} `);
             const minutes = Math.floor(current / 60);
             const seconds = current % 60;
             const duration = Math.floor(video.duration - offsetTime);
