@@ -87,6 +87,7 @@
 </div>
 
 <script>
+    let clickCount = 0;
     document.addEventListener('DOMContentLoaded', () => {
         const video = document.getElementById('myVideo');
         const timestamp = document.getElementById('timestamp');
@@ -115,12 +116,16 @@
         }
 
         cameraBtn.addEventListener('click', () => {
-            overlay.style.display = 'block';
-            camera.src = "https://nyu.qualtrics.com/CP/Graphic.php?IM=IM_a9Iew3UQwDmDZhc";
-            setTimeout(() => {
-                overlay.style.display = 'none';
-                camera.src = "https://nyu.qualtrics.com/CP/Graphic.php?IM=IM_0k3lKUbx8t4CKfs";
-            }, 500);
+           clickCount++;
+           if (clickCount <= 30) {
+                overlay.style.display = 'block';
+                camera.src = "https://nyu.qualtrics.com/CP/Graphic.php?IM=IM_a9Iew3UQwDmDZhc";
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                    camera.src = "https://nyu.qualtrics.com/CP/Graphic.php?IM=IM_0k3lKUbx8t4CKfs";
+                }, 300);
+            }
+            console.log(`Camera button clicked ${clickCount} times`);
         });
 
         viewingInfo.style.display = 'block';
