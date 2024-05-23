@@ -47,6 +47,10 @@
             transform: translateX(-50%);
             cursor: pointer;
         }
+        #camera-btn img {
+            width: 10%;
+            height: auto;
+        }
 
         #overlay {
             position: absolute;
@@ -68,6 +72,24 @@
             background-color: #000;
             border-radius: 50%;
         }
+        /* Media queries for different screen sizes */
+        @media (max-width: 600px) {
+            #camera-btn img {
+                width: 20%;
+            }
+        }
+
+        @media (min-width: 601px) and (max-width: 1024px) {
+            #camera-btn img {
+                width: 15%;
+            }
+        }
+
+        @media (min-width: 1025px) {
+            #camera-btn img {
+                width: 10%;
+            }
+        }
     </style>
 </head>
 <body>
@@ -77,8 +99,7 @@
            src="video.mp4"></video>
     <div id="timestamp">00:00 / 00:00</div>
     <div id="camera-btn">
-        <img id="camera" src="https://nyu.qualtrics.com/CP/Graphic.php?IM=IM_0k3lKUbx8t4CKfs" alt="Camera" width="80"
-             height="80">
+        <img id="camera" src="https://nyu.qualtrics.com/CP/Graphic.php?IM=IM_0k3lKUbx8t4CKfs" alt="Camera">
     </div>
     <div id="viewing-info"><span style="color: red;">●</span> 2 people viewing</div>
     <div id="overlay">
