@@ -48,7 +48,7 @@
             cursor: pointer;
         }
         #camera-btn img {
-            width: 20%;
+            width: 30%;
             height: auto;
         }
 
@@ -75,19 +75,19 @@
         /* Media queries for different screen sizes */
         @media (max-width: 600px) {
             #camera-btn img {
-                width: 20%;
+                width: 30%;
             }
         }
 
         @media (min-width: 601px) and (max-width: 1024px) {
             #camera-btn img {
-                width: 20%;
+                width: 30%;
             }
         }
 
         @media (min-width: 1025px) {
             #camera-btn img {
-                width: 20%;
+                width: 30%;
             }
         }
     </style>
@@ -99,7 +99,7 @@
            src="video.mp4"></video>
     <div id="timestamp">00:00 / 00:00</div>
     <div id="camera-btn">
-        <img id="camera" src="https://nyu.qualtrics.com/CP/Graphic.php?IM=IM_a5EJKDaAXc8BuOW" alt="Camera">
+        <img id="camera" src="https://nyu.qualtrics.com/CP/Graphic.php?IM=IM_0k3lKUbx8t4CKfs" alt="Camera">
     </div>
     <div id="viewing-info"><span style="color: red;">●</span> 2 people viewing</div>
     <div id="overlay">
@@ -110,8 +110,25 @@
 <script>
     let clickCount = 0;  //记录相机点击次数
     const offsetTime = 445; // 7分25秒的时间偏移量
+        function resizeContainer() {
+        const container = document.getElementById('video-container');
+        const containerWidth = container.offsetWidth;
+        const containerHeight = container.offsetHeight+280;
 
+        const windowWidth = window.innerWidth;
+        const windowHeight = window.innerHeight;
+
+        const scaleWidth = windowWidth / containerWidth;
+        const scaleHeight = windowHeight / containerHeight;
+
+        const scale = Math.min(scaleWidth, scaleHeight);
+        console.log(`Camera button clicked ${scale} scale`);
+        container.style.transform = `scale(${scale})`;
+    }
+
+    window.addEventListener('resize', resizeContainer);
     document.addEventListener('DOMContentLoaded', () => {
+        resizeContainer();
         const video = document.getElementById('myVideo');
         const timestamp = document.getElementById('timestamp');
         const cameraBtn = document.getElementById('camera-btn');
@@ -142,10 +159,10 @@
            clickCount++;
            if (clickCount <= 30) {
                 overlay.style.display = 'block';
-                camera.src = "https://nyu.qualtrics.com/CP/Graphic.php?IM=IM_0wEnJHyMQM8k7yK";
+                camera.src = "https://nyu.qualtrics.com/CP/Graphic.php?IM=IM_a9Iew3UQwDmDZhc";
                 setTimeout(() => {
                     overlay.style.display = 'none';
-                    camera.src = "https://nyu.qualtrics.com/CP/Graphic.php?IM=IM_a5EJKDaAXc8BuOW";
+                    camera.src = "https://nyu.qualtrics.com/CP/Graphic.php?IM=IM_0k3lKUbx8t4CKfs";
                 }, 300);
             }
             console.log(`Camera button clicked ${clickCount} times`);
