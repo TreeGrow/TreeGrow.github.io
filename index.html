@@ -110,8 +110,15 @@
 <script>
     let clickCount = 0;  //记录相机点击次数
     const offsetTime = 445; // 7分25秒的时间偏移量
+    const container = document.getElementById('video-container');
+    const video = document.getElementById('myVideo');
+    const timestamp = document.getElementById('timestamp');
+    const cameraBtn = document.getElementById('camera-btn');
+    const viewingInfo = document.getElementById('viewing-info');
+    const overlay = document.getElementById('overlay');
+    const camera = document.getElementById('camera');
+    
     function resizeContainer() {
-        const container = document.getElementById('video-container');
         const containerWidth = container.offsetWidth;
         const containerHeight = container.offsetHeight;
 
@@ -129,13 +136,6 @@
     window.addEventListener('resize', resizeContainer);
     document.addEventListener('DOMContentLoaded', () => {
         resizeContainer();
-        const video = document.getElementById('myVideo');
-        const timestamp = document.getElementById('timestamp');
-        const cameraBtn = document.getElementById('camera-btn');
-        const viewingInfo = document.getElementById('viewing-info');
-        const overlay = document.getElementById('overlay');
-        const camera = document.getElementById('camera');
-
         // Set the video to start from 445 seconds
         video.addEventListener('loadedmetadata', () => {
             video.currentTime = 445;
