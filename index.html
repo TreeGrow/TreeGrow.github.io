@@ -113,7 +113,7 @@
     function resizeContainer() {
         const container = document.getElementById('video-container');
         const containerWidth = container.offsetWidth;
-        const containerHeight = container.offsetHeight+350;
+        const containerHeight = container.offsetHeight;
 
         const windowWidth = window.innerWidth;
         const windowHeight = window.innerHeight;
@@ -121,14 +121,14 @@
         const scaleWidth = windowWidth / containerWidth;
         const scaleHeight = windowHeight / containerHeight;
 
-        const scale = Math.min(scaleWidth, scaleHeight);
+        const scale = Math.min(scaleWidth, scaleHeight)*0.9;
         console.log(`Camera button clicked ${scale} scale`);
         container.style.transform = `scale(${scale})`;
     }
 
     window.addEventListener('resize', resizeContainer);
     document.addEventListener('DOMContentLoaded', () => {
-        // resizeContainer();
+        resizeContainer();
         const video = document.getElementById('myVideo');
         const timestamp = document.getElementById('timestamp');
         const cameraBtn = document.getElementById('camera-btn');
