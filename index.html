@@ -23,7 +23,7 @@
         }
 
         video {
-            width: 80%;
+            width: 100%;
             height: auto;
         }
 
@@ -110,23 +110,23 @@
 <script>
     let clickCount = 0;  //记录相机点击次数
     const offsetTime = 445; // 7分25秒的时间偏移量
-    // function resizeContainer() {
-    //     const container = document.getElementById('video-container');
-    //     const containerWidth = container.offsetWidth;
-    //     const containerHeight = container.offsetHeight+350;
+    function resizeContainer() {
+        const container = document.getElementById('video-container');
+        const containerWidth = container.offsetWidth;
+        const containerHeight = container.offsetHeight+350;
 
-    //     const windowWidth = window.innerWidth;
-    //     const windowHeight = window.innerHeight;
+        const windowWidth = window.innerWidth;
+        const windowHeight = window.innerHeight;
 
-    //     const scaleWidth = windowWidth / containerWidth;
-    //     const scaleHeight = windowHeight / containerHeight;
+        const scaleWidth = windowWidth / containerWidth;
+        const scaleHeight = windowHeight / containerHeight;
 
-    //     const scale = Math.min(scaleWidth, scaleHeight);
-    //     console.log(`Camera button clicked ${scale} scale`);
-    //     container.style.transform = `scale(${scale})`;
-    // }
+        const scale = Math.min(scaleWidth, scaleHeight);
+        console.log(`Camera button clicked ${scale} scale`);
+        container.style.transform = `scale(${scale})`;
+    }
 
-    // window.addEventListener('resize', resizeContainer);
+    window.addEventListener('resize', resizeContainer);
     document.addEventListener('DOMContentLoaded', () => {
         // resizeContainer();
         const video = document.getElementById('myVideo');
