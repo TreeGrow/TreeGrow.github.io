@@ -164,10 +164,26 @@
                     overlay.style.display = 'none';
                     camera.src = "https://nyu.qualtrics.com/CP/Graphic.php?IM=IM_a5EJKDaAXc8BuOW";
                 }, 300);
-            }
+           }
         });
 
         viewingInfo.style.display = 'block';
+    });
+
+    // 监听来自父页面的消息
+    window.addEventListener('message', (event) => {
+        if (event.origin !== 'https://nyu.qualtrics.com') {
+            // 过滤来自其他域的消息
+            return;
+        }
+
+        if (event.data === 'get-click-count') {
+            // 发送 clickCount 给父页面
+            window.parent.postMessage({
+                type: 'click-count',
+                clickCount: clickCount
+            }, event.origin);
+        }
     });
 </script>
 
