@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #video-container {
+            position: relative;
+            width: 100%;
+            text-align: center;
+        }
+
+        video {
+            width: 100%;
+            height: auto;
+        }
+
+        #timestamp, #viewing-info, #camera-btn {
+            font-size: 18px;
+            color: #fff;
+            position: absolute;
+            transform: translateY(100%);
+        }
+
+        #timestamp {
+            left: 0;
+        }
+
+        #viewing-info {
+            right: 0;
+        }
+
+        #camera-btn {
+            left: 50%;
+            transform: translateX(-50%);
+            cursor: pointer;
+        }
+        #camera-btn img {
+            width: 30%;
+            height: auto;
+        }
+
+        #overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 100px;
+            border: 2px dashed #000;
+            display: none;
+            box-sizing: border-box;
+            padding: 35px;
+            border-image: repeating-linear-gradient(45deg, #000 0, #000 20px, transparent 10px, transparent 30px) 1;
+        }
+
+        #black-circle {
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            border-radius: 50%;
+        }
+        /* Media queries for different screen sizes */
+        @media (max-width: 600px) {
+            #camera-btn img {
+                width: 30%;
+            }
+        }
+
+        @media (min-width: 601px) and (max-width: 1024px) {
+            #camera-btn img {
+                width: 30%;
+            }
+        }
+
+        @media (min-width: 1025px) {
+            #camera-btn img {
+                width: 30%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div id="video-container">
+    <video id="myVideo" autoplay muted
+           src="practice_video.mp4"></video>
+    <div id="timestamp">00:00 / 00:00</div>
+    <div id="camera-btn">
+        <img id="camera" src="https://nyu.qualtrics.com/CP/Graphic.php?IM=IM_a5EJKDaAXc8BuOW" alt="Camera">
+    </div>
+    <div id="viewing-info"><span style="color: red;">●</span> 2 people viewing</div>
+    <div id="overlay">
+        <div id="black-circle"></div>
+    </div>
+</div>
+
+<script>
+    let clickCount = 0;  //记录相机点击次数
+    const endTime=30;
+    const offsetTime = 0; // 445  7分25秒的时间偏移量
+    const container = document.getElementById('video-container');
+    const video = document.getElementById('myVideo');
+    const timestamp = document.getElementById('timestamp');
+    const cameraBtn = document.getElementById('camera-btn');
+    const viewingInfo = document.getElementById('viewing-info');
+    const overlay = document.getElementById('overlay');
+    const camera = document.getElementById('camera');
+    
+    function resizeContainer() {
+        const containerWidth = container.offsetWidth;
+        const containerHeight = container.offsetHeight;
+
+        const windowWidth = window.innerWidth;
+        const windowHeight = window.innerHeight;
+
+        const scaleWidth = windowWidth / containerWidth;
+        const scaleHeight = windowHeight / containerHeight;
+
+        const scale = Math.min(scaleWidth, scaleHeight)*0.7;
+        console.log(`Camera button clicked ${scale} scale`);
+        container.style.transform = `scale(${scale})`;
+    }
+
+    window.addEventListener('resize', resizeContainer);
+    document.addEventListener('DOMContentLoaded', () => {
+        resizeContainer();
+        // Set the video to start from offsetTime  seconds
+        video.addEventListener('loadedmetadata', () => {
+            video.currentTime = offsetTime;
+        });
+
+        video.addEventListener('timeupdate', () => {
+            const current = Math.floor(video.currentTime - offsetTime);
+            const minutes = Math.floor(current / 60);
+            const seconds = current % 60;
+            const duration = Math.floor(video.duration - offsetTime);
+            const durMinutes = Math.floor(duration / 60);
+            const durSeconds = duration % 60;
+            timestamp.textContent = `${formatTime(minutes)}:${formatTime(seconds)} / ${formatTime(durMinutes)}:${formatTime(durSeconds)}`;
+            // Check if the video has reached the end time
+            if (video.currentTime >= endTime) {
+                video.pause(); // Stop the video
+                // video.currentTime = 0; // Optional: Reset video to start
+            }
+        });
+
+        function formatTime(time) {
+            return time < 10 ? `0${time}` : time;
+        }
+
+        cameraBtn.addEventListener('click', () => {
+           clickCount++;
+           if (clickCount <= 30) {
+                overlay.style.display = 'block';
+                camera.src = "https://nyu.qualtrics.com/CP/Graphic.php?IM=IM_0wEnJHyMQM8k7yK";
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                    camera.src = "https://nyu.qualtrics.com/CP/Graphic.php?IM=IM_a5EJKDaAXc8BuOW";
+                }, 300);
+           }
+        });
+
+        viewingInfo.style.display = 'block';
+    });
+
+    // 监听来自父页面的消息
+    window.addEventListener('message', (event) => {
+        if (event.origin !== 'https://nyu.qualtrics.com') {
+            // 过滤来自其他域的消息
+            return;
+        }
+
+        if (event.data === 'get-click-count') {
+            // 发送 clickCount 给父页面
+            window.parent.postMessage({
+                type: 'click-count',
+                clickCount: clickCount
+            }, event.origin);
+        }
+    });
+</script>
+
+</body>
+</html>
