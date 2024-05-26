@@ -27,7 +27,7 @@
             height: auto;
         }
 
-        #timestamp, #viewing-info, #camera-btn {
+        #timestamp, #camera-btn {
             font-size: 18px;
             color: #fff;
             position: absolute;
@@ -36,10 +36,6 @@
 
         #timestamp {
             left: 0;
-        }
-
-        #viewing-info {
-            right: 0;
         }
 
         #camera-btn {
@@ -97,11 +93,10 @@
 <div id="video-container">
     <video id="myVideo" autoplay muted
            src="practice_video.mp4"></video>
-    <div id="timestamp">00:00 / 00:00</div>
+    <div id="timestamp">00:00 / 00:30</div>
     <div id="camera-btn">
         <img id="camera" src="https://nyu.qualtrics.com/CP/Graphic.php?IM=IM_a5EJKDaAXc8BuOW" alt="Camera">
     </div>
-    <div id="viewing-info"><span style="color: red;">●</span> 2 people viewing</div>
     <div id="overlay">
         <div id="black-circle"></div>
     </div>
@@ -109,13 +104,12 @@
 
 <script>
     let clickCount = 0;  //记录相机点击次数
-    const endTime=30;
-    const offsetTime = 0; // 445  7分25秒的时间偏移量
+    const endTime = 30;
+    const offsetTime = 0; // 时间偏移量
     const container = document.getElementById('video-container');
     const video = document.getElementById('myVideo');
     const timestamp = document.getElementById('timestamp');
     const cameraBtn = document.getElementById('camera-btn');
-    const viewingInfo = document.getElementById('viewing-info');
     const overlay = document.getElementById('overlay');
     const camera = document.getElementById('camera');
     
@@ -129,7 +123,7 @@
         const scaleWidth = windowWidth / containerWidth;
         const scaleHeight = windowHeight / containerHeight;
 
-        const scale = Math.min(scaleWidth, scaleHeight)*0.7;
+        const scale = Math.min(scaleWidth, scaleHeight) * 0.7;
         console.log(`Camera button clicked ${scale} scale`);
         container.style.transform = `scale(${scale})`;
     }
@@ -137,7 +131,7 @@
     window.addEventListener('resize', resizeContainer);
     document.addEventListener('DOMContentLoaded', () => {
         resizeContainer();
-        // Set the video to start from offsetTime  seconds
+        // Set the video to start from offsetTime seconds
         video.addEventListener('loadedmetadata', () => {
             video.currentTime = offsetTime;
         });
@@ -146,10 +140,7 @@
             const current = Math.floor(video.currentTime - offsetTime);
             const minutes = Math.floor(current / 60);
             const seconds = current % 60;
-            const duration = Math.floor(video.duration - offsetTime);
-            const durMinutes = Math.floor(duration / 60);
-            const durSeconds = duration % 60;
-            timestamp.textContent = `${formatTime(minutes)}:${formatTime(seconds)} / ${formatTime(durMinutes)}:${formatTime(durSeconds)}`;
+            timestamp.textContent = `${formatTime(minutes)}:${formatTime(seconds)} / 00:30`;
             // Check if the video has reached the end time
             if (video.currentTime >= endTime) {
                 video.pause(); // Stop the video
@@ -162,18 +153,16 @@
         }
 
         cameraBtn.addEventListener('click', () => {
-           clickCount++;
-           if (clickCount <= 30) {
+            clickCount++;
+            if (clickCount <= 30) {
                 overlay.style.display = 'block';
                 camera.src = "https://nyu.qualtrics.com/CP/Graphic.php?IM=IM_0wEnJHyMQM8k7yK";
                 setTimeout(() => {
                     overlay.style.display = 'none';
                     camera.src = "https://nyu.qualtrics.com/CP/Graphic.php?IM=IM_a5EJKDaAXc8BuOW";
                 }, 300);
-           }
+            }
         });
-
-        viewingInfo.style.display = 'block';
     });
 
     // 监听来自父页面的消息
