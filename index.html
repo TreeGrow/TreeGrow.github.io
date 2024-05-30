@@ -138,7 +138,7 @@
         resizeContainer();
         // Set the video to start from 445 seconds
         video.addEventListener('loadedmetadata', () => {
-            video.currentTime = 445;
+            video.currentTime = offsetTime;
         });
 
         video.addEventListener('timeupdate', () => {
